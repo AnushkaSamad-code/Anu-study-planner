@@ -224,4 +224,12 @@ function pauseTimer(){clearInterval(timerInterval);timerRunning=false;document.g
 function exportBackup(){const data={version:1,exportedAt:new Date().toISOString(),tasks,lectures,hours,deadlines,reflections,weekly,quizzes,midterms};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Anu_Study_Planner_Backup_'+localDateString()+'.json';a.click();URL.revokeObjectURL(url)}function importBackup(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(!d||!Array.isArray(d.tasks)||!Array.isArray(d.lectures))throw new Error('Invalid backup');if(!confirm('Restore this backup? Current planner data will be replaced.'))return;tasks=d.tasks;lectures=d.lectures;hours=d.hours||[];deadlines=d.deadlines||[];reflections=d.reflections||{};weekly=d.weekly||{};quizzes=d.quizzes||[];midterms=d.midterms||{};save();alert('Backup restored successfully!')}catch(err){alert('Could not restore: this file does not look like a valid planner backup.')}e.target.value=''};reader.readAsText(file)}
 document.getElementById('weekStart').addEventListener('change',renderWeekly);
 renderMidterms();loadReflection();renderAll();
+</script>
+<script>
+// Offline support on GitHub Pages: visit once online, then the planner can load offline.
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(err => console.warn('Offline setup:', err));
+  });
+}
 </script></body></html>

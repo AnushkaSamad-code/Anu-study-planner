@@ -55,8 +55,8 @@ input:focus,select:focus,textarea:focus{border-color:#c6a5d5;box-shadow:0 0 0 3p
 .overview-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.weekly-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.weekly-day{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.weekly-day h3{margin:0 0 4px}.weekly-task{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f2eaf3}.weekly-task:last-child{border-bottom:0}.weekly-task.done span{text-decoration:line-through;color:var(--muted)}.weekly-task input{width:auto;margin-top:4px}.weekly-add{display:flex;gap:6px;margin-top:8px}.weekly-add input{min-width:0}.deadline-near{border-color:#e8b6c8;background:#fff6fa}@media(max-width:720px){.overview-panels,.weekly-days{grid-template-columns:1fr}}
 
 /* Layout repair: consistent spacing, readable mobile navigation, and less crowded Overview */
-.tabs{display:flex;flex-wrap:wrap;overflow:visible;gap:8px;padding:8px 0 16px}
-.tabs button{flex:0 0 auto;min-height:42px;padding:9px 14px;font-size:13px}
+.tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:8px;padding:8px 0 16px;max-width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x}
+.tabs button{flex:0 0 auto;min-height:42px;padding:9px 14px;font-size:13px;white-space:nowrap}
 .overview-stats{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px}
 .overview-stats .stat{min-height:135px}
 .overview-quicklinks{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
@@ -77,8 +77,8 @@ input:focus,select:focus,textarea:focus{border-color:#c6a5d5;box-shadow:0 0 0 3p
  .app{padding:12px}
  .header{align-items:flex-start;flex-direction:column;padding:16px}
  .header h1{font-size:25px}
- .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
- .tabs button{white-space:normal;line-height:1.25;padding:10px 8px;text-align:center}
+ .tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .tabs button{white-space:nowrap;line-height:1.25;padding:10px 12px;text-align:center;flex:0 0 auto}
  .overview-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
  .overview-stats .stat:first-child{grid-column:1/-1}
  .weekly-days{grid-template-columns:1fr}

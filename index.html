@@ -53,6 +53,47 @@ input:focus,select:focus,textarea:focus{border-color:#c6a5d5;box-shadow:0 0 0 3p
 .weekly-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.weekly-day{border:1px solid #efe1f1;background:linear-gradient(135deg,#fff,#fff8fc);border-radius:16px;padding:12px}.weekly-day label{font-weight:700;display:block;margin-bottom:7px;color:#795f87}.weekly-day textarea{min-height:100px}.weekly-day .day-date{font-size:12px;color:var(--muted);margin-bottom:7px}@media(min-width:900px){.weekly-days{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:480px){.weekly-days{grid-template-columns:1fr}}
 .midterm-subjects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.midterm-card{background:linear-gradient(145deg,#fff 0%,#fff8fc 100%);border:1px solid #eee1f0;border-radius:18px;padding:15px;min-width:0}.midterm-card h3{margin:0;color:#725781}.midterm-card .field{margin-top:10px}.midterm-card textarea{min-height:68px}.midterm-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.midterm-checks{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}.midterm-checks label{display:flex;align-items:center;gap:5px;font-size:12px}.midterm-checks input{width:auto}.midterm-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.midterm-mini{padding:12px;border-radius:14px;background:#f7effb;border:1px solid #eee2f4}.midterm-mini strong{display:block;font-size:22px;color:#725781}.midterm-mini span{font-size:12px;color:var(--muted)}@media(max-width:650px){.midterm-subjects{grid-template-columns:1fr}.midterm-summary{grid-template-columns:repeat(3,minmax(0,1fr))}.midterm-mini{padding:9px}.midterm-mini strong{font-size:18px}}
 .overview-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.weekly-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.weekly-day{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.weekly-day h3{margin:0 0 4px}.weekly-task{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f2eaf3}.weekly-task:last-child{border-bottom:0}.weekly-task.done span{text-decoration:line-through;color:var(--muted)}.weekly-task input{width:auto;margin-top:4px}.weekly-add{display:flex;gap:6px;margin-top:8px}.weekly-add input{min-width:0}.deadline-near{border-color:#e8b6c8;background:#fff6fa}@media(max-width:720px){.overview-panels,.weekly-days{grid-template-columns:1fr}}
+
+/* Layout repair: consistent spacing, readable mobile navigation, and less crowded Overview */
+.tabs{display:flex;flex-wrap:wrap;overflow:visible;gap:8px;padding:8px 0 16px}
+.tabs button{flex:0 0 auto;min-height:42px;padding:9px 14px;font-size:13px}
+.overview-stats{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px}
+.overview-stats .stat{min-height:135px}
+.overview-quicklinks{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.overview-quicklinks button{flex:1 1 160px}
+#todayTasks .task{align-items:center}
+#todayTasks .task .actions{flex-wrap:wrap}
+#todayTasks .task-title{overflow-wrap:anywhere}
+.weekly-days{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.weekly-day{min-width:0;padding:15px}
+.weekly-task{gap:8px;align-items:center}
+.weekly-task span{overflow-wrap:anywhere;min-width:0}
+.weekly-add button{flex:0 0 auto}
+.timetable-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.day-card{min-width:0}
+.section-head{flex-wrap:wrap}
+.section-head > div{min-width:0}
+@media(max-width:760px){
+ .app{padding:12px}
+ .header{align-items:flex-start;flex-direction:column;padding:16px}
+ .header h1{font-size:25px}
+ .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .tabs button{white-space:normal;line-height:1.25;padding:10px 8px;text-align:center}
+ .overview-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .overview-stats .stat:first-child{grid-column:1/-1}
+ .weekly-days{grid-template-columns:1fr}
+ .timetable-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .section-head{align-items:flex-start}
+ .section-head > button{margin-top:4px}
+}
+@media(max-width:420px){
+ .overview-stats{grid-template-columns:1fr}
+ .overview-stats .stat:first-child{grid-column:auto}
+ .timetable-grid{grid-template-columns:1fr}
+ .card{padding:13px;border-radius:17px}
+ .section-head h2{font-size:17px}
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script></head>
 <body><main class="app">
@@ -69,17 +110,22 @@ input:focus,select:focus,textarea:focus{border-color:#c6a5d5;box-shadow:0 0 0 3p
 <div class="weekbox"><strong>Data safety 🌷</strong><br>This upgrade keeps your existing tasks, lectures, deadlines, quizzes, weekly plans, revision sets, and saved browser data. Previously saved study-hour and reflection records are left untouched in storage. Export a backup before replacing your live file. New calendar and semester information will also be saved in this browser.</div>
 </section>
 <section id="home" class="view active">
-<div class="grid">
-<div class="card stat"><div class="label">Task completion</div><div class="num" id="statPct">0%</div><div class="progress"><span id="bar"></span></div></div>
-<div class="hint">Lectures and labs</div></div>
-<div class="card stat"><div class="label">Pending lectures</div><div class="num" id="statLectures">14</div><div class="hint">Backlog to work through</div></div>
-</div>
-<div class="section-head"><h2>Today's priorities</h2><span class="sub" id="todayLabel"></span></div>
-<div class="card"><div id="todayTasks" class="task-list"></div></div>
-<div class="section-head"><h2>Today's deadlines</h2><span class="sub">Due today</span></div><div class="card"><div id="todayDeadlines" class="task-list"></div></div>
-
-<div class="section-head"><h2>Closest deadlines to handle</h2><span class="sub">Only 3 items shown; overdue items stay visible</span></div><div class="card"><div id="upcomingDeadlines" class="task-list"></div></div>
-<div class="overview-panels"><div class="card"><div class="section-head" style="margin-top:0"><h2>Assignments</h2><button class="iconbtn" onclick="openDeadline(null,'Assignment')">+ Add</button></div><div id="overviewAssignments" class="task-list"></div></div><div class="card"><div class="section-head" style="margin-top:0"><h2>Lab tasks</h2><button class="iconbtn" onclick="openDeadline(null,'Lab task')">+ Add</button></div><div id="overviewLabs" class="task-list"></div></div><div class="card"><div class="section-head" style="margin-top:0"><h2>Upcoming quizzes</h2><button class="iconbtn" onclick="openQuiz()">+ Add</button></div><div id="overviewQuizzes" class="task-list"></div></div></div><div class="weekbox"><strong>Gentle reminder 🌷</strong><br>Consistency matters more than a perfect checklist. If the day gets heavy, do one essential task, rest, and reschedule the rest.</div>
+  <div class="grid overview-stats">
+    <div class="card stat"><div class="label">Weekly task completion</div><div class="num" id="statPct">0%</div><div class="progress"><span id="bar"></span></div><div class="hint">Based on tasks in your weekly schedule</div></div>
+    <div class="card stat"><div class="label">Pending lectures</div><div class="num" id="statLectures">14</div><div class="hint">Lecture tracker backlog</div></div>
+    <div class="card stat"><div class="label">Upcoming assessments</div><div class="num" id="statAssessments">0</div><div class="hint">Quizzes and midterms not marked complete</div></div>
+  </div>
+  <div class="section-head"><div><h2>Today's tasks 🌷</h2><span class="sub">Tasks added to today's date in Weekly Planner appear here automatically.</span></div><button onclick="setTab('tasks')">Open Weekly Planner</button></div>
+  <div class="card"><div id="todayLabel" class="sub" style="margin-bottom:10px"></div><div id="todayTasks" class="task-list"></div></div>
+  <div class="section-head"><div><h2>Upcoming deadlines</h2><span class="sub">The 3 closest incomplete deadlines, including overdue items.</span></div><button class="secondary" onclick="setTab('assignments')">Assignments</button><button class="secondary" onclick="setTab('labtasks')">Lab tasks</button></div>
+  <div class="card"><div id="upcomingDeadlines" class="task-list"></div></div>
+  <div class="overview-quicklinks">
+    <button class="secondary" onclick="setTab('quizzes')">📝 Open Quizzes</button>
+    <button class="secondary" onclick="setTab('midterms')">🎯 Open Midterms</button>
+    <button class="secondary" onclick="setTab('lectures')">📚 Open Lectures</button>
+    <button class="secondary" onclick="setTab('timetable')">🗓️ Open Timetable</button>
+  </div>
+  <div class="weekbox"><strong>Gentle reminder 🌷</strong><br>Keep the plan simple. Your weekly checklist is the source of truth—no need to enter the same task twice.</div>
 </section>
 <section id="tasks" class="view">
 <div class="section-head"><div><h2>Weekly planner 🌷</h2><div class="sub">Add tasks under each day. They will automatically appear in Overview on that date—no separate daily-task list needed.</div></div><button onclick="saveWeekPlan()">Save weekly plan</button></div>
@@ -167,7 +213,31 @@ document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>setTab(b.data
 function localDateString(date=new Date()){const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,"0"),d=String(date.getDate()).padStart(2,"0");return `${y}-${m}-${d}`}
 function renderAll(){syncWeeklyTasks();renderHome();renderLectures();renderQuizzes();renderDeadlines();renderWeekly();renderMidterms();renderStudySets();renderCalendar();renderSemesters()}
 function taskHTML(t,i){return `<div class="task ${t.status==="Done"?"done":""}"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${i},this.checked)"><div style="flex:1"><div class="task-title">${esc(t.title)}</div><div class="meta">${esc(t.date)} · ${esc(t.subject)} · ${esc(t.category)} · ${t.minutes||0} min ${t.deadline?"· Due "+esc(t.deadline):""}</div><div style="margin-top:6px"><span class="tag ${t.priority.toLowerCase()}">${esc(t.priority)}</span><span class="tag">${esc(t.status)}</span><span class="tag">${t.progress||0}%</span></div></div><div class="actions"><button class="iconbtn" onclick="editTask(${i})">Edit</button><button class="iconbtn" onclick="deleteTask(${i})">Delete</button></div></div>`}
-function renderHome(){let done=tasks.filter(t=>t.status==="Done").length,pct=tasks.length?Math.round(done/tasks.length*100):0;document.getElementById("statPct").textContent=pct+"%";document.getElementById("bar").style.width=pct+"%";document.getElementById("statLectures").textContent=lectures.filter(l=>!l.coverage).length;let today=localDateString();let list=tasks.map((t,i)=>({...t,i})).filter(t=>t.date===today);let label=today;if(!list.length){const nextDate=tasks.filter(t=>t.date>today&&t.status!=="Done").map(t=>t.date).sort()[0];if(nextDate){list=tasks.map((t,i)=>({...t,i})).filter(t=>t.date===nextDate);label=`Next up · ${nextDate}`}}document.getElementById("todayLabel").textContent=label;document.getElementById("todayTasks").innerHTML=list.length?list.map(t=>taskHTML(t,t.i)).join(""):'<div class="empty">No tasks scheduled for today. Add tasks in the Weekly Planner. 🌷</div>';}
+function renderHome(){
+ const today=localDateString();
+ const allWeekly=[];
+ Object.entries(weekly||{}).forEach(([weekKey,w])=>{
+   Object.entries((w&&w.checklists)||{}).forEach(([date,items])=>{
+     if(date===today)(items||[]).forEach((item,index)=>allWeekly.push({item,date,index,weekKey}));
+   });
+ });
+ const standalone=tasks.map((t,i)=>({...t,i})).filter(t=>t.date===today&&!t.weeklyTaskId&&!t.deadlineId);
+ const completedWeekly=Object.values(weekly||{}).flatMap(w=>Object.values((w&&w.checklists)||{}).flatMap(a=>a||[]));
+ const completedStandalone=tasks.filter(t=>!t.weeklyTaskId&&!t.deadlineId);
+ const allCount=completedWeekly.length+completedStandalone.length;
+ const doneCount=completedWeekly.filter(t=>t.done).length+completedStandalone.filter(t=>t.status==="Done").length;
+ const pct=allCount?Math.round(doneCount/allCount*100):0;
+ document.getElementById("statPct").textContent=pct+"%";
+ document.getElementById("bar").style.width=pct+"%";
+ document.getElementById("statLectures").textContent=lectures.filter(l=>!l.coverage).length;
+ const pendingAssessments=(quizzes||[]).filter(q=>q.status!=="Completed"&&q.completed!==true).length+
+   Object.entries(midterms||{}).filter(([k,v])=>k!=="_window"&&v&&v.status!=="Done"&&v.completed!==true).length;
+ const assessEl=document.getElementById("statAssessments");if(assessEl)assessEl.textContent=pendingAssessments;
+ document.getElementById("todayLabel").textContent=new Date(today+"T12:00:00").toLocaleDateString("en-PK",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ const weeklyHtml=allWeekly.map(({item,date,index,weekKey})=>`<div class="task ${item.done?"done":""}"><input type="checkbox" ${item.done?"checked":""} aria-label="Complete ${esc(item.title)}" onchange="toggleWeeklyTaskById('${date}','${esc(item.id)}',this.checked)"><div style="flex:1"><div class="task-title">${esc(item.title)}</div><div class="meta">From Weekly Planner${item.subject?" · "+esc(item.subject):""}</div></div><button class="iconbtn" onclick="setTab('tasks')">View</button></div>`).join("");
+ const standaloneHtml=standalone.map(t=>taskHTML(t,t.i)).join("");
+ document.getElementById("todayTasks").innerHTML=(weeklyHtml+standaloneHtml)||'<div class="empty">No tasks planned for today yet. Add a task under today’s date in Weekly Planner and it will show here automatically. 🌷</div>';
+}
 function renderTasks(){/* Daily task panel removed; weekly checklist feeds Overview automatically. */}
 function toggleTask(i,checked){tasks[i].status=checked?"Done":"In progress";tasks[i].progress=checked?100:Math.max(10,tasks[i].progress||0);if(tasks[i].weeklyTaskId){for(const w of Object.values(weekly||{}))for(const list of Object.values(w.checklists||{}))for(const item of list||[])if(item.id===tasks[i].weeklyTaskId)item.done=checked}if(tasks[i].deadlineId){const d=deadlines.find(x=>x.id===tasks[i].deadlineId);if(d)d.status=tasks[i].status}save()}
 function openTask(index=null){let t=index===null?{}:tasks[index];document.getElementById("modalTitle").textContent=index===null?"Add task":"Edit task";document.getElementById("modalBody").innerHTML=`<form id="taskForm" class="formrow"><div class="field full"><label>Task</label><input name="title" required value="${esc(t.title||"")}"></div><div class="field"><label>Date</label><input type="date" name="date" value="${t.date||localDateString()}" required></div><div class="field"><label>Subject</label><select name="subject">${subjects.map(s=>`<option ${t.subject===s?"selected":""}>${esc(s)}</option>`).join("")}</select></div><div class="field"><label>Category</label><select name="category">${["Lecture","Revision","Assignment","Lab","Quiz","Midterm prep","Practice","Other"].map(x=>`<option ${t.category===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Priority</label><select name="priority">${["High","Medium","Low"].map(x=>`<option ${t.priority===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Estimated minutes</label><input type="number" min="0" name="minutes" value="${t.minutes??30}"></div><div class="field"><label>Deadline</label><input type="date" name="deadline" value="${t.deadline||""}"></div><div class="field"><label>Status</label><select name="status">${["Not started","In progress","Done"].map(x=>`<option ${t.status===x?"selected":""}>${x}</option>`).join("")}</select></div><div class="field"><label>Progress %</label><input type="number" min="0" max="100" name="progress" value="${t.progress??0}"></div><div class="full"><button type="submit">Save task</button></div></form>`;document.getElementById("taskForm").onsubmit=e=>{e.preventDefault();let f=Object.fromEntries(new FormData(e.target));f.minutes=+f.minutes;f.progress=+f.progress;if(index===null)tasks.push(f);else tasks[index]=f;closeModal();save()};document.getElementById("modal").classList.add("show")}
@@ -256,7 +326,7 @@ function syncDeadlineTasks(){
 }
 function toggleDeadline(i,checked){const d=deadlines[i];d.status=checked?"Done":"In progress";syncDeadlineTasks();save()}
 function deadlineCard(d,i){const near=d.status!=="Done"&&d.date>=localDateString()&&Math.ceil((new Date(d.date+'T12:00:00')-new Date(localDateString()+'T12:00:00'))/86400000)<=3;return `<div class="task ${d.status==="Done"?"done":""} ${near?"deadline-near":""}"><input type="checkbox" ${d.status==="Done"?"checked":""} aria-label="Mark deadline complete" onchange="toggleDeadline(${i},this.checked)"><div style="flex:1"><strong>${esc(d.title)}</strong><div class="meta">${esc(d.subject)} · Due ${esc(d.date)} · ${esc(d.status)}</div><span class="tag ${String(d.priority||"Medium").toLowerCase()}">${esc(d.priority||"Medium")}</span></div><div class="actions"><button class="iconbtn" onclick="openDeadline(${i})">Edit</button><button class="iconbtn" onclick="deleteDeadline(${i})">Delete</button></div></div>`}
-function renderDeadlines(){const ordered=deadlines.map((d,i)=>({...d,i,type:d.type||(/lab/i.test(d.title||"")?"Lab task":"Assignment")})).sort((a,b)=>(a.date||'').localeCompare(b.date||''));const assignments=ordered.filter(d=>d.type==='Assignment'),labs=ordered.filter(d=>d.type==='Lab task'),other=ordered.filter(d=>d.type==='Other');const html=(arr)=>arr.length?arr.map(d=>deadlineCard(d,d.i)).join(''):'<div class="empty">Nothing here yet. Add an item above. 🌷</div>';document.getElementById('assignmentList').innerHTML=html(assignments);document.getElementById('labTaskList').innerHTML=html(labs);document.getElementById('otherDeadlineList').innerHTML=html(other);const a=document.getElementById('overviewAssignments'),l=document.getElementById('overviewLabs');if(a)a.innerHTML=html(assignments.slice(0,3));if(l)l.innerHTML=html(labs.slice(0,3));const nearest=ordered.filter(d=>d.status!=='Done').slice(0,3);const up=document.getElementById('upcomingDeadlines');if(up)up.innerHTML=nearest.length?nearest.map(d=>deadlineCard(d,d.i)).join(''):'<div class="empty">No upcoming deadlines. 🌷</div>';const dueToday=ordered.filter(d=>d.date===localDateString());const todayEl=document.getElementById('todayDeadlines');if(todayEl)todayEl.innerHTML=dueToday.length?dueToday.map(d=>deadlineCard(d,d.i)).join(''):'<div class="empty">No deadlines due today. 🌷</div>'}
+function renderDeadlines(){const ordered=deadlines.map((d,i)=>({...d,i,type:d.type||(/lab/i.test(d.title||"")?"Lab task":"Assignment")})).sort((a,b)=>(a.date||'').localeCompare(b.date||''));const assignments=ordered.filter(d=>d.type==='Assignment'),labs=ordered.filter(d=>d.type==='Lab task'),other=ordered.filter(d=>d.type==='Other');const html=(arr)=>arr.length?arr.map(d=>deadlineCard(d,d.i)).join(''):'<div class="empty">Nothing here yet. Add an item above. 🌷</div>';document.getElementById('assignmentList').innerHTML=html(assignments);document.getElementById('labTaskList').innerHTML=html(labs);document.getElementById('otherDeadlineList').innerHTML=html(other);const a=document.getElementById('overviewAssignments'),l=document.getElementById('overviewLabs');if(a)a.innerHTML=html(assignments.slice(0,3));if(l)l.innerHTML=html(labs.slice(0,3));const nearest=ordered.filter(d=>d.status!=='Done'&&d.date).sort((a,b)=>(a.date||'').localeCompare(b.date||'')).slice(0,3);const up=document.getElementById('upcomingDeadlines');if(up)up.innerHTML=nearest.length?nearest.map(d=>deadlineCard(d,d.i)).join(''):'<div class="empty">No upcoming deadlines. 🌷</div>';const dueToday=ordered.filter(d=>d.date===localDateString());const todayEl=document.getElementById('todayDeadlines');if(todayEl)todayEl.innerHTML=dueToday.length?dueToday.map(d=>deadlineCard(d,d.i)).join(''):'<div class="empty">No deadlines due today. 🌷</div>'}
 function deleteDeadline(i){if(confirm("Delete this deadline?")){deadlines.splice(i,1);syncDeadlineTasks();save()}}
 function saveReflection(){let d=document.getElementById("refDate").value;reflections[d]={mood:document.getElementById("mood").value,achievement:document.getElementById("achievement").value,struggle:document.getElementById("struggle").value,learned:document.getElementById("learned").value,improve:document.getElementById("improve").value,carry:document.getElementById("carry").value};save();document.getElementById("reflectionSaved").textContent="Reflection saved for "+d+" ✓"}
 function loadReflection(){const d=document.getElementById("refDate").value;const r=reflections[d]||{};for(const k of ["mood","achievement","struggle","learned","improve","carry"]){const el=document.getElementById(k);if(el)el.value=r[k]|| (k==="mood"?"Okay":"");}}
@@ -274,6 +344,11 @@ function syncWeeklyTasks(){
 }
 function renderWeekly(){const start=document.getElementById('weekStart');if(!start)return;if(!start.value){let d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));start.value=localDateString(d)}const key=start.value;const w=weekly[key]||{};document.getElementById('weekTheme').value=w.theme||'';document.getElementById('weekPriorities').value=w.priorities||w.minimum||'';document.getElementById('weekGoals').value=w.goals||w.stretch||'';const names=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];const dayHost=document.getElementById('weeklyDays');if(dayHost){dayHost.innerHTML=names.map((name,i)=>{const date=new Date(key+'T12:00:00');date.setDate(date.getDate()+i);const ds=localDateString(date);const items=((w.checklists||{})[ds]||[]);const legacy=(w.days||{})[ds]||'';return `<div class="weekly-day"><h3>${name}</h3><div class="day-date">${date.toLocaleDateString('en-PK',{day:'numeric',month:'short'})}</div>${legacy?`<details><summary>Previous day notes</summary><p class="meta">${esc(legacy)}</p></details>`:''}<div id="weeklyItems${i}">${items.map((item,j)=>`<div class="weekly-task ${item.done?'done':''}"><input type="checkbox" ${item.done?'checked':''} onchange="toggleWeeklyTask('${ds}',${j},this.checked)"><span style="flex:1">${esc(item.title)}${item.subject?`<small class="meta" style="display:block">${esc(item.subject)}</small>`:''}</span><button class="iconbtn" onclick="deleteWeeklyTask('${ds}',${j})">×</button></div>`).join('')||'<div class="sub">No tasks added yet.</div>'}</div><div class="weekly-add"><input id="weeklyNew${i}" placeholder="Add a task…" onkeydown="if(event.key==='Enter'){event.preventDefault();addWeeklyTask('${ds}',${i})}"><button onclick="addWeeklyTask('${ds}',${i})">Add</button></div></div>`}).join('')}const end=new Date(key+'T12:00:00');end.setDate(end.getDate()+6);const endS=localDateString(end);const items=Object.entries(w.checklists||{}).filter(([date])=>date>=key&&date<=endS).flatMap(([,arr])=>arr);const completed=items.filter(t=>t.done).length;const pending=items.length-completed;document.getElementById('weekProgress').innerHTML=`<p class="meta">${completed} completed · ${pending} remaining</p><div class="progress"><span style="width:${items.length?Math.round(completed/items.length*100):0}%"></span></div>`}
 function addWeeklyTask(date,dayIndex){const input=document.getElementById('weeklyNew'+dayIndex);const title=input.value.trim();if(!title)return;const key=document.getElementById('weekStart').value;weekly[key]=weekly[key]||{};weekly[key].checklists=weekly[key].checklists||{};weekly[key].checklists[date]=weekly[key].checklists[date]||[];weekly[key].checklists[date].push({id:"wk-"+date+"-"+Math.random().toString(36).slice(2,9),title,done:false});save();}
+function toggleWeeklyTaskById(date,id,checked){
+ let found=false;
+ Object.values(weekly||{}).forEach(w=>{const list=(w&&w.checklists&&w.checklists[date])||[];list.forEach(item=>{if(String(item.id)===String(id)){item.done=checked;found=true;}})});
+ if(found)save();
+}
 function toggleWeeklyTask(date,index,checked){const key=document.getElementById('weekStart').value;const list=weekly[key]?.checklists?.[date];if(list&&list[index])list[index].done=checked;save()}
 function deleteWeeklyTask(date,index){const key=document.getElementById('weekStart').value;const list=weekly[key]?.checklists?.[date];if(list){list.splice(index,1);save()}}
 function saveWeekPlan(){const key=document.getElementById('weekStart').value;weekly[key]={...(weekly[key]||{}),theme:document.getElementById('weekTheme').value,priorities:document.getElementById('weekPriorities').value,goals:document.getElementById('weekGoals').value,checklists:(weekly[key]||{}).checklists||{}};save();alert('Weekly plan saved 💜')}

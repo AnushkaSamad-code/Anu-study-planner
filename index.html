@@ -94,13 +94,32 @@ input:focus,select:focus,textarea:focus{border-color:#c6a5d5;box-shadow:0 0 0 3p
  .section-head h2{font-size:17px}
 }
 
-</style>
+
+/* StudyPilot-inspired mobile app structure */
+body{padding-bottom:82px}
+.app{max-width:1000px;padding-bottom:24px}
+.bottom-nav{position:fixed;z-index:30;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;padding:7px 5px max(7px,env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid #eadfed;box-shadow:0 -6px 24px rgba(95,67,108,.10);backdrop-filter:blur(14px)}
+.bottom-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:transparent!important;color:#9a8aa3!important;box-shadow:none!important;border:0!important;border-radius:12px;padding:4px 2px;min-width:0;min-height:48px}
+.bottom-nav button span{font-size:21px;line-height:1.1;font-weight:700}
+.bottom-nav button small{font-size:10px;line-height:1.2;white-space:nowrap;font-weight:650}
+.bottom-nav button.active{background:#e2f2ec!important;color:#426e62!important}
+.header{margin:10px 0 18px;padding:16px 18px}
+.tabs{display:none!important}
+.more-menu{display:grid;gap:9px}
+.more-link{display:grid;grid-template-columns:34px minmax(0,1fr) 18px;align-items:center;gap:10px;text-align:left;width:100%;background:rgba(255,255,255,.9)!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:0 4px 12px rgba(128,91,145,.05)!important;border-radius:15px;padding:13px}
+.more-link>span:first-child{font-size:21px;text-align:center}
+.more-link b{display:block;font-size:14px}
+.more-link small{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:2px}
+.more-link i{font-style:normal;font-size:24px;color:#a58ab0}
+#home .overview-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+#home .overview-stats .stat:first-child{grid-column:1/-1}
+@media(min-width:850px){.bottom-nav{left:50%;right:auto;transform:translateX(-50%);width:min(720px,100%);border:1px solid #eadfed;border-bottom:0;border-radius:18px 18px 0 0}.app{padding-left:24px;padding-right:24px}}
+@media(max-width:480px){.app{padding:8px 10px 22px}.header{padding:13px 15px;border-radius:20px}.header h1{font-size:23px}.date-pill{padding:8px 10px}.bottom-nav button small{font-size:9px}.bottom-nav button span{font-size:20px}.deadline-shortcuts{grid-template-columns:1fr!important}}
+\n</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script></head>
 <body><main class="app">
 <header class="header"><div><div class="eyebrow">YOUR PERSONAL STUDY SPACE</div><h1>Hello, Anu! 💜</h1><p>Small steps count. Keep showing up.</p></div><div class="date-pill">October 2026</div></header>
-<nav class="tabs">
-<button class="active" data-tab="home">Overview</button><button data-tab="roadmap">4-Year roadmap</button><button data-tab="tasks">Weekly planner</button><button data-tab="lectures">Lectures</button><button data-tab="studio">✨ Revision Studio</button><button data-tab="timetable">University timetable</button><button data-tab="quizzes">Quizzes</button><button data-tab="midterms">Midterms</button><button data-tab="assignments">Assignments</button><button data-tab="labtasks">Lab tasks</button>
-</nav>
+
 <section id="roadmap" class="view">
 <div class="section-head"><div><h2>My 4-Year BSCS Roadmap 💜</h2><div class="sub">One place for your calendar and all 8 semesters. Your existing tasks, deadlines, quizzes, and study records stay in this browser.</div></div></div>
 <div class="grid" style="margin-bottom:14px"><div class="card stat"><div class="label">Degree progress</div><div class="num" id="degreeProgress">25%</div><div class="hint">Based on semester status</div></div><div class="card stat"><div class="label">Semesters completed</div><div class="num" id="semCompleted">2 / 8</div><div class="hint">Edit each semester below</div></div><div class="card stat"><div class="label">Recorded CGPA</div><div class="num" id="degreeCgpa">3.61</div><div class="hint">Calculated from known GPA + credits</div></div><div class="card stat"><div class="label">Current semester</div><div class="num" id="activeSemester">3</div><div class="hint">Change status any time</div></div></div>
@@ -158,9 +177,39 @@ input:focus,select:focus,textarea:focus{border-color:#c6a5d5;box-shadow:0 0 0 3p
 <section id="assignments" class="view"><div class="section-head"><div><h2>Assignments 📚</h2><div class="sub">Assignment deadlines, status, and priority.</div></div><button onclick="openDeadline(null,'Assignment')">+ Add assignment</button></div><div class="card"><div id="assignmentList" class="task-list"></div></div></section>
 <section id="labtasks" class="view"><div class="section-head"><div><h2>Lab tasks 🧪</h2><div class="sub">Keep lab records and lab submissions separate from assignments.</div></div><button onclick="openDeadline(null,'Lab task')">+ Add lab task</button></div><div class="card"><div id="labTaskList" class="task-list"></div></div><div class="card" style="margin-top:12px"><h3>Other deadlines</h3><div id="otherDeadlineList" class="task-list"></div></div></section>
 
-<div class="card" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center"><button class="secondary" onclick="exportBackup()">Export backup</button><button class="secondary" onclick="document.getElementById('backupFile').click()">Restore backup</button><input id="backupFile" type="file" accept="application/json" style="display:none" onchange="importBackup(event)"><span class="sub">Backups help move your progress to another browser/device.</span></div><div class="foot" id="saveStatus" aria-live="polite">Your progress is saved in this browser on this device. Export a backup regularly.</div>
+<section id="deadlines" class="view">
+ <div class="section-head"><div><h2>Deadlines</h2><div class="sub">All upcoming work in one place, grouped by type.</div></div></div>
+ <div class="grid deadline-shortcuts" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:14px">
+  <button onclick="setTab('assignments')">📚 Assignments</button><button onclick="setTab('labtasks')">🧪 Lab tasks</button>
+ </div>
+ <div class="card"><h3>Closest deadlines</h3><div id="deadlineHubList" class="task-list"></div></div>
+ <div class="card" style="margin-top:12px"><h3>Quizzes coming up</h3><div id="deadlineHubQuizzes" class="task-list"></div><button class="secondary" onclick="setTab('quizzes')">Open quiz tracker</button></div>
+ <div class="card" style="margin-top:12px"><h3>Midterms</h3><div id="deadlineHubMidterms" class="task-list"></div><button class="secondary" onclick="setTab('midterms')">Open midterm planner</button></div>
+</section>
+<section id="more" class="view">
+ <div class="section-head"><div><h2>Your workspace</h2><div class="sub">All your study tools in one place.</div></div></div>
+ <div class="more-menu">
+  <button class="more-link" onclick="setTab('tasks')"><span>🗓️</span><span><b>Weekly Planner</b><small>Plan tasks by day</small></span><i>›</i></button>
+  <button class="more-link" onclick="setTab('lectures')"><span>📚</span><span><b>My Courses & Lectures</b><small>Subject snapshot and lecture progress</small></span><i>›</i></button>
+  <button class="more-link" onclick="setTab('quizzes')"><span>📝</span><span><b>Quizzes</b><small>Dates and preparation</small></span><i>›</i></button>
+  <button class="more-link" onclick="setTab('midterms')"><span>🎯</span><span><b>Midterms</b><small>Exam readiness</small></span><i>›</i></button>
+  <button class="more-link" onclick="setTab('assignments')"><span>📄</span><span><b>Assignments</b><small>Submissions and deadlines</small></span><i>›</i></button>
+  <button class="more-link" onclick="setTab('labtasks')"><span>🧪</span><span><b>Lab Tasks</b><small>Lab records and submissions</small></span><i>›</i></button>
+  <button class="more-link" onclick="setTab('studio')"><span>✨</span><span><b>Revision Studio</b><small>Saved flashcards and mind maps</small></span><i>›</i></button>
+  <button class="more-link" onclick="setTab('roadmap')"><span>🎓</span><span><b>4-Year Roadmap</b><small>Semester progress and calendar</small></span><i>›</i></button>
+  <div class="card" style="margin-top:8px"><h3>Backup & restore</h3><p class="sub">Export a backup before replacing the website or changing devices.</p><button class="secondary" onclick="exportBackup()">Export backup</button> <button class="secondary" onclick="document.getElementById('backupFile').click()">Restore backup</button></div>
+ </div>
+</section>
+\n<div class="card" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center"><button class="secondary" onclick="exportBackup()">Export backup</button><button class="secondary" onclick="document.getElementById('backupFile').click()">Restore backup</button><input id="backupFile" type="file" accept="application/json" style="display:none" onchange="importBackup(event)"><span class="sub">Backups help move your progress to another browser/device.</span></div><div class="foot" id="saveStatus" aria-live="polite">Your progress is saved in this browser on this device. Export a backup regularly.</div>
 </main>
-<div class="modal" id="modal"><div class="modalbox"><div class="modalhead"><h2 id="modalTitle">Add task</h2><button class="secondary" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div>
+<nav class="bottom-nav" aria-label="Main navigation">
+ <button data-main="home" class="active" onclick="setTab('home')"><span>⌂</span><small>Overview</small></button>
+ <button data-main="timetable" onclick="setTab('timetable')"><span>▦</span><small>Timetable</small></button>
+ <button data-main="deadlines" onclick="setTab('deadlines')"><span>◷</span><small>Deadlines</small></button>
+ <button data-main="lectures" onclick="setTab('lectures')"><span>▤</span><small>My Courses</small></button>
+ <button data-main="more" onclick="setTab('more')"><span>•••</span><small>More</small></button>
+</nav>
+\n<div class="modal" id="modal"><div class="modalbox"><div class="modalhead"><h2 id="modalTitle">Add task</h2><button class="secondary" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div>
 <script>
 const subjects=["CN","DS","SE","AI","IS","Probability & Statistics","Understanding of Quran"];
 const initialLectures=[
@@ -208,10 +257,26 @@ function save(){
  renderAll();
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function setTab(id){document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id))}
-document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+function setTab(id){
+ document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));
+ const mainMap={home:"home",timetable:"timetable",deadlines:"deadlines",lectures:"lectures",more:"more"};
+ const main=mainMap[id]||"more";
+ document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.toggle("active",b.dataset.main===main));
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(id==="deadlines")renderDeadlineHub();
+}
 function localDateString(date=new Date()){const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,"0"),d=String(date.getDate()).padStart(2,"0");return `${y}-${m}-${d}`}
-function renderAll(){syncWeeklyTasks();renderHome();renderLectures();renderQuizzes();renderDeadlines();renderWeekly();renderMidterms();renderStudySets();renderCalendar();renderSemesters()}
+function renderDeadlineHub(){
+ const today=localDateString();
+ const ds=(deadlines||[]).filter(d=>d.status!=="Done").sort((a,b)=>(a.date||"9999-12-31").localeCompare(b.date||"9999-12-31")).slice(0,8);
+ const list=document.getElementById("deadlineHubList");
+ if(list) list.innerHTML=ds.map(d=>`<div class="task"><div style="flex:1"><div class="task-title">${esc(d.title||"Untitled deadline")}</div><div class="meta">${esc(d.type||"Deadline")} · ${esc(d.date||"No date")}${d.date&&d.date<today?" · Overdue":""}</div></div><button class="iconbtn" onclick="setTab('${d.type==='Lab task'?'labtasks':'assignments'}')">Open</button></div>`).join("")||'<div class="empty">No upcoming deadlines. 🌷</div>';
+ const qs=document.getElementById("deadlineHubQuizzes");
+ if(qs) qs.innerHTML=(quizzes||[]).filter(q=>q.status!=="Done"&&q.completed!==true).sort((a,b)=>(a.date||"9999-12-31").localeCompare(b.date||"9999-12-31")).slice(0,3).map(q=>`<div class="task"><div style="flex:1"><div class="task-title">${esc(q.title||q.subject||"Quiz")}</div><div class="meta">${esc(q.date||"Date not set")}</div></div></div>`).join("")||'<div class="empty">No pending quizzes recorded.</div>';
+ const ms=document.getElementById("deadlineHubMidterms");
+ if(ms) ms.innerHTML='<div class="task"><div style="flex:1"><div class="task-title">Midterm examinations</div><div class="meta">2–8 November 2026 · Update dates in Midterms</div></div><button class="iconbtn" onclick="setTab(\'midterms\')">Open</button></div>';
+}
+function renderAll(){syncWeeklyTasks();renderHome();renderLectures();renderQuizzes();renderDeadlines();renderWeekly();renderMidterms();renderStudySets();renderCalendar();renderSemesters();renderDeadlineHub()}
 function taskHTML(t,i){return `<div class="task ${t.status==="Done"?"done":""}"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${i},this.checked)"><div style="flex:1"><div class="task-title">${esc(t.title)}</div><div class="meta">${esc(t.date)} · ${esc(t.subject)} · ${esc(t.category)} · ${t.minutes||0} min ${t.deadline?"· Due "+esc(t.deadline):""}</div><div style="margin-top:6px"><span class="tag ${t.priority.toLowerCase()}">${esc(t.priority)}</span><span class="tag">${esc(t.status)}</span><span class="tag">${t.progress||0}%</span></div></div><div class="actions"><button class="iconbtn" onclick="editTask(${i})">Edit</button><button class="iconbtn" onclick="deleteTask(${i})">Delete</button></div></div>`}
 function renderHome(){
  const today=localDateString();
